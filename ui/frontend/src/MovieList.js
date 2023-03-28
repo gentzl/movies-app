@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup, Container, Table} from 'reactstrap';
+import {Button, ButtonGroup, Container, FormGroup, Table} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Link} from 'react-router-dom';
+import {Rating} from "@mui/material";
 
 class MovieList extends Component {
 
@@ -38,7 +39,13 @@ class MovieList extends Component {
                 <td style={{whiteSpace: 'nowrap'}}>{movie.name}</td>
                 <td>{movie.year}</td>
                 <td>{movie.ageLimit}</td>
-                <td>{movie.rating}</td>
+                <td>
+                    <Rating
+                        name="rating"
+                        value={movie.rating }
+                        readOnly
+                    />
+                </td>
                 <td>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                         <ButtonGroup>
@@ -54,7 +61,7 @@ class MovieList extends Component {
             <div>
                 <AppNavbar/>
                 <Container fluid>
-                    <div className="float-right">
+                    <div className="float-right" >
                         <Button color="success" tag={Link} to="/movies/new">Add Movie</Button>
                     </div>
                     <h3>Movies</h3>

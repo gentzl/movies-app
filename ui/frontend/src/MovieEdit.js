@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import Form from 'react-validation/build/form';
 
-import {Container, FormGroup} from 'reactstrap';
+import {Button, Container, FormGroup} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Box, FormControl, InputLabel, MenuItem, Rating, Select, TextField, Typography} from "@mui/material";
-import Button from '@mui/material/Button';
 
 class MovieEdit extends Component {
 
@@ -13,7 +12,7 @@ class MovieEdit extends Component {
         name: '',
         year: 2023,
         ageLimit: 12,
-        rating: 5,
+        rating: 5.0,
         synopsis: '',
     };
 
@@ -63,81 +62,73 @@ class MovieEdit extends Component {
 
         return <div>
             <AppNavbar/>
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
-                }}
-                noValidate
-                autoComplete="off"
-            >
+            <Box sx={{'& .MuiTextField-root': {m: 1, width: '25ch'},}} noValidate autoComplete="off">
                 <Container>
                     {title}
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
-                            <TextField label="Name" variant="outlined" name="name" id="name" value={item.name || ''}
+                            <TextField label="Name" variant="outlined" name="name" id="name" value={item.name || ''}  className="w-50"
                                        onChange={this.handleChange} autoComplete="name" required/>
                         </FormGroup>
                         <FormGroup>
-                            <TextField label="Year" variant="outlined" name="year" id="year" value={item.year || ''}
+                            <TextField label="Year"  type="number" variant="outlined" name="year" id="year" value={item.year || ''}
                                        onChange={this.handleChange} autoComplete="year" required/>
                         </FormGroup>
                         <FormGroup>
-                            {/* <TextField label="Age Limit" variant="outlined" name="ageLimit" id="ageLimit"
-                                       value={item.ageLimit || ''}
-                                       onChange={this.handleChange} autoComplete="ageLimit" required/>*/}
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                            <InputLabel id="ageLimit">Age</InputLabel>
-                            <Select
-                                labelId="ageLimit-label"
-                                id="ageLimit-select"
-                                value={item.ageLimit}
-                                label="Age Limit"
-                                onChange={this.handleChange}                            >
-                                <MenuItem value={0}>0</MenuItem>
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={4}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                                <MenuItem value={6}>6</MenuItem>
-                                <MenuItem value={7}>7</MenuItem>
-                                <MenuItem value={8}>8</MenuItem>
-                                <MenuItem value={9}>9</MenuItem>
-                                <MenuItem value={10}>10</MenuItem>
-                                <MenuItem value={11}>11</MenuItem>
-                                <MenuItem value={12}>12</MenuItem>
-                                <MenuItem value={13}>13</MenuItem>
-                                <MenuItem value={14}>14</MenuItem>
-                                <MenuItem value={15}>15</MenuItem>
-                                <MenuItem value={16}>16</MenuItem>
-                                <MenuItem value={17}>17</MenuItem>
-                                <MenuItem value={18}>18</MenuItem>
-                            </Select>
+                            <FormControl sx={{m: 1, minWidth: 80}} >
+                                <InputLabel id="ageLimit">Age</InputLabel>
+                                <Select
+                                    labelId="ageLimit"
+                                    id="ageLimit"
+                                    value={item.ageLimit}
+                                    label="Age Limit"
+                                    onChange={this.handleChange}
+                                    required>
+                                    <MenuItem value={0}>0</MenuItem>
+                                    <MenuItem value={1}>1</MenuItem>
+                                    <MenuItem value={2}>2</MenuItem>
+                                    <MenuItem value={3}>3</MenuItem>
+                                    <MenuItem value={4}>4</MenuItem>
+                                    <MenuItem value={5}>5</MenuItem>
+                                    <MenuItem value={6}>6</MenuItem>
+                                    <MenuItem value={7}>7</MenuItem>
+                                    <MenuItem value={8}>8</MenuItem>
+                                    <MenuItem value={9}>9</MenuItem>
+                                    <MenuItem value={10}>10</MenuItem>
+                                    <MenuItem value={11}>11</MenuItem>
+                                    <MenuItem value={12}>12</MenuItem>
+                                    <MenuItem value={13}>13</MenuItem>
+                                    <MenuItem value={14}>14</MenuItem>
+                                    <MenuItem value={15}>15</MenuItem>
+                                    <MenuItem value={16}>16</MenuItem>
+                                    <MenuItem value={17}>17</MenuItem>
+                                    <MenuItem value={18}>18</MenuItem>
+                                </Select>
                             </FormControl>
                         </FormGroup>
-                        <FormControl sx={{ m: 1 }}>
-                        <FormGroup >
-
-                            <Typography component="legend">Rating</Typography>
-                            <Rating
-                                name="rating"
-                                value={item.rating || ''}
-                                onChange={this.handleChange}
-                            />
-                        </FormGroup>
+                        <FormControl sx={{m: 1}}>
+                            <FormGroup>
+                                <Typography component="legend">Rating</Typography>
+                                <Rating
+                                    name="rating"
+                                    value={item.rating || ''}
+                                    onChange={this.handleChange}
+                                    precision={1}
+                                />
+                            </FormGroup>
                         </FormControl>
                         <FormGroup>
-                            <TextField label="Synopsis" variant="outlined" name="synopsis" id="synopsis"
+                            <TextField label="Synopsis" variant="outlined" name="synopsis" id="synopsis"  className="w-50"
                                        value={item.synopsis || ''}
                                        onChange={this.handleChange} autoComplete="synopsis" multiline
                                        rows={3}/>
                         </FormGroup>
-                        <FormGroup className='mt-1'>
+                        <FormGroup sx={{m: 1}}>
                             <Button variant="contained" color="primary" type="submit">Save</Button>{' '}
                             <Button variant="contained" color="secondary" tag={Link} to="/movies">Cancel</Button>
                         </FormGroup>
                     </Form>
+
                 </Container>
             </Box>
         </div>
