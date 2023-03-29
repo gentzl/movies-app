@@ -32,6 +32,13 @@ public class MovieController {
         return movies;
     }
 
+    @PostMapping(path = "/find")
+    public ResponseEntity findMovies(@RequestBody String searchText) {
+        List<Movie> movies = movieRepository.findByNameContainingIgnoreCase(searchText);
+        log.debug("found {} movies", movies.size());
+        return ResponseEntity.ok(movies);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovie(@PathVariable Long id) {
         var movie = movieRepository.findById(id);

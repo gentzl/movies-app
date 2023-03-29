@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, ButtonGroup, Container, FormGroup, Table} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Link} from 'react-router-dom';
-import {Rating} from "@mui/material";
+import {Rating, TextField} from "@mui/material";
 
 class MovieList extends Component {
 
@@ -10,6 +10,7 @@ class MovieList extends Component {
         super(props);
         this.state = {movies: []};
         this.remove = this.remove.bind(this);
+        this.searchMovies = this.searchMovies.bind(this);
     }
 
     componentDidMount() {
@@ -31,6 +32,21 @@ class MovieList extends Component {
         });
     }
 
+    async searchMovies(value) {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'text/plain'
+            },
+            body: value
+        };
+
+        await fetch('/movies/find', requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({movies: data}));
+    }
+
     render() {
         const {movies: movies} = this.state;
 
@@ -40,11 +56,7 @@ class MovieList extends Component {
                 <td>{movie.year}</td>
                 <td>{movie.ageLimit}</td>
                 <td>
-                    <Rating
-                        name="rating"
-                        value={movie.rating }
-                        readOnly
-                    />
+                    <Rating name="rating" value={movie.rating} readOnly/>
                 </td>
                 <td>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -61,10 +73,13 @@ class MovieList extends Component {
             <div>
                 <AppNavbar/>
                 <Container fluid>
-                    <div className="float-right" >
+                    <div className="float-right">
                         <Button color="success" tag={Link} to="/movies/new">Add Movie</Button>
                     </div>
                     <h3>Movies</h3>
+                    <TextField id="search-movies" label="Search movie" type="search" variant="filled" onChange={(e) => {
+                        return this.searchMovies(e.target.value);
+                    }} fullWidth/>
                     <Table className="mt-4">
                         <thead>
                         <tr>

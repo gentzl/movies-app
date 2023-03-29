@@ -67,15 +67,17 @@ class MovieEdit extends Component {
                     {title}
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
-                            <TextField label="Name" variant="outlined" name="name" id="name" value={item.name || ''}  className="w-50"
+                            <TextField label="Name" variant="outlined" name="name" id="name" value={item.name || ''}
+                                       className="w-50"
                                        onChange={this.handleChange} autoComplete="name" required/>
                         </FormGroup>
                         <FormGroup>
-                            <TextField label="Year"  type="number" variant="outlined" name="year" id="year" value={item.year || ''}
+                            <TextField label="Year" type="number" variant="outlined" name="year" id="year"
+                                       value={item.year || ''}
                                        onChange={this.handleChange} autoComplete="year" required/>
                         </FormGroup>
                         <FormGroup>
-                            <FormControl sx={{m: 1, minWidth: 80}} >
+                            <FormControl sx={{m: 1, minWidth: 80}}>
                                 <InputLabel id="ageLimit">Age</InputLabel>
                                 <Select
                                     labelId="ageLimit"
@@ -118,7 +120,8 @@ class MovieEdit extends Component {
                             </FormGroup>
                         </FormControl>
                         <FormGroup>
-                            <TextField label="Synopsis" variant="outlined" name="synopsis" id="synopsis"  className="w-50"
+                            <TextField label="Synopsis" variant="outlined" name="synopsis" id="synopsis"
+                                       className="w-50"
                                        value={item.synopsis || ''}
                                        onChange={this.handleChange} autoComplete="synopsis" multiline
                                        rows={3}/>

@@ -1,4 +1,4 @@
-package de.gentz.movies.webservice.builder;
+package de.gentz.movies.builder;
 
 import de.gentz.movies.entity.Movie;
 
