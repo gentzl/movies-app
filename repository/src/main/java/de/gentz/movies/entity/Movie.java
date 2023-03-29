@@ -7,20 +7,23 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.ToString;
-import org.hibernate.validator.constraints.NotBlank;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "movies")
 @Data
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Movie {
     @Id
     @GeneratedValue
     private Long id;
 
     @NotNull(message = "Name cannot be null")
+    @Length(min = 1, max = 100)
     private String name;
 
     @Min(value = 1900, message = "Year should not be less than 1900")
@@ -35,13 +38,8 @@ public class Movie {
     @Max(value = 5, message = "Rating should not be greater than 5")
     private int rating;
 
+    @Length(max = 500)
     private String synopsis;
 
-    /*Movies
-
-    Genres
-
-    Actors
-
-            Directors*/
+    /*TODO: Movies, Genres, Actors, Directors*/
 }

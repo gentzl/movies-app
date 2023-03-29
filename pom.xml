@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.0.4</spring-boot.version>
         <h2.version>1.4.200</h2.version>
+        <slf4j.version>2.0.7</slf4j.version>
     </properties>
     <dependencies>
         <dependency>

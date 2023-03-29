@@ -7,8 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"de.gentz.movies.repository"})
-@EntityScan("de.gentz.movies.entity")
 public class MovieRestApplication {
 
     public static void main(String[] args) {
