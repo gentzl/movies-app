@@ -12,7 +12,7 @@ class MovieEdit extends Component {
         name: '',
         year: 2023,
         ageLimit: 12,
-        rating: 5.0,
+        rating: 5,
         synopsis: '',
     };
 
@@ -34,10 +34,21 @@ class MovieEdit extends Component {
 
     handleChange(event) {
         const target = event.target;
-        const value = target.value;
         const name = target.name;
+        let value = target.value;
         let item = {...this.state.item};
+
+        if (name === "rating") {
+            value = Number(value);
+        }
+
         item[name] = value;
+        this.setState({item});
+    }
+
+    handleChangeAgeLimit = (event) => {
+        let item = {...this.state.item};
+        item["ageLimit"] = event.target.value;
         this.setState({item});
     }
 
@@ -84,7 +95,7 @@ class MovieEdit extends Component {
                                     id="ageLimit"
                                     value={item.ageLimit}
                                     label="Age Limit"
-                                    onChange={this.handleChange}
+                                    onChange={this.handleChangeAgeLimit}
                                     required>
                                     <MenuItem value={0}>0</MenuItem>
                                     <MenuItem value={1}>1</MenuItem>
@@ -111,12 +122,7 @@ class MovieEdit extends Component {
                         <FormControl sx={{m: 1}}>
                             <FormGroup>
                                 <Typography component="legend">Rating</Typography>
-                                <Rating
-                                    name="rating"
-                                    value={item.rating || ''}
-                                    onChange={this.handleChange}
-                                    precision={1}
-                                />
+                                <Rating name="rating" value={item.rating || ''} onChange={this.handleChange} precision={1}/>
                             </FormGroup>
                         </FormControl>
                         <FormGroup>
@@ -136,6 +142,7 @@ class MovieEdit extends Component {
             </Box>
         </div>
     }
+
 }
 
 export default withRouter(MovieEdit);
