@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-03-30-genres" author="Ludwig Gentz">
+        <comment>Insert genres</comment>
+        <insert tableName="genres">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="Action"/>
+        </insert>
+        <insert tableName="genres">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="Drama"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

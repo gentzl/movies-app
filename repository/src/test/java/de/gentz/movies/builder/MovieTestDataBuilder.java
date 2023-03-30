@@ -1,13 +1,16 @@
 package de.gentz.movies.builder;
 
+import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 
 public class MovieTestDataBuilder {
-    private static Long id = 1L;
+    private static Long id;
     private String name = "Rambo 1";
-    private int ageLimit = 12;
-    private int year = 1986;
-    private String synopsis = "lorem ipsum";
+    private final int ageLimit = 12;
+    private final int year = 1986;
+    private final String synopsis = "lorem ipsum";
+
+    private Genre genre;
 
     public MovieTestDataBuilder idNull() {
         id = null;
@@ -16,6 +19,12 @@ public class MovieTestDataBuilder {
 
     public MovieTestDataBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+
+    public MovieTestDataBuilder genre(Genre genre) {
+        this.genre = genre;
         return this;
     }
 
@@ -30,6 +39,7 @@ public class MovieTestDataBuilder {
                 .ageLimit(ageLimit)
                 .year(year)
                 .synopsis(synopsis)
+                .genre(genre)
                 .build();
     }
 }
