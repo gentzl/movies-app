@@ -9,11 +9,11 @@
     <changeSet id="2023-03-30-genres" author="Ludwig Gentz">
         <comment>Insert genres</comment>
         <insert tableName="genres">
-            <column name="id" valueNumeric="1"/>
+            <column name="genre_id" valueNumeric="1"/>
             <column name="name" value="Action"/>
         </insert>
         <insert tableName="genres">
-            <column name="id" valueNumeric="2"/>
+            <column name="genre_id" valueNumeric="2"/>
             <column name="name" value="Drama"/>
         </insert>
     </changeSet>

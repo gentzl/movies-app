@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup, Container, FormGroup, Table} from 'reactstrap';
+import {Button, ButtonGroup, Container, Table} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Link} from 'react-router-dom';
 import {Rating, TextField} from "@mui/material";
@@ -61,12 +61,8 @@ class MovieList extends Component {
                 <td>
                     <div  style={{display: 'flex', justifyContent: 'flex-end'}}>
                         <ButtonGroup>
-
                             <Button size="sm" className="mr-2"  color="primary" tag={Link} to={"/movies/" + movie.id} >Edit</Button>
-
-
                             <Button size="sm" className="mr-2"  color="danger" onClick={() => this.remove(movie.id)} >Delete</Button>
-
                         </ButtonGroup>
                     </div>
                 </td>

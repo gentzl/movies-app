@@ -4,7 +4,18 @@ import Form from 'react-validation/build/form';
 
 import {Button, Container, FormGroup} from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import {Box, FormControl, InputLabel, MenuItem, Rating, Select, TextField, Typography} from "@mui/material";
+import {
+    Box,
+    Chip,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    OutlinedInput,
+    Rating,
+    Select,
+    TextField,
+    Typography
+} from "@mui/material";
 
 class MovieEdit extends Component {
 
@@ -19,7 +30,8 @@ class MovieEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: this.emptyItem
+            item: this.emptyItem,
+            genres: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,6 +42,10 @@ class MovieEdit extends Component {
             const movie = await (await fetch(`/movies/${this.props.match.params.id}`)).json();
             this.setState({item: movie});
         }
+
+        fetch('/genres')
+            .then(response => response.json())
+            .then(data => this.state.genres = data);
     }
 
     handleChange(event) {
@@ -52,6 +68,17 @@ class MovieEdit extends Component {
         this.setState({item});
     }
 
+    handleChangeGenres = (event) => {
+        const {
+            target: {value},
+        } = event;
+        /* setPersonName(
+             // On autofill we get a stringified value.
+             typeof value === 'string' ? value.split(',') : value,
+         );*/
+    };
+
+
     async handleSubmit(event) {
         event.preventDefault();
         const {item} = this.state;
@@ -69,8 +96,18 @@ class MovieEdit extends Component {
 
     render() {
         const {item} = this.state;
+        const {genres} = this.state.genres;
         const title = <h2>{item.id ? 'Edit Movie' : 'Add Movie'}</h2>;
-
+        const ITEM_HEIGHT = 48;
+        const ITEM_PADDING_TOP = 8;
+        const MenuProps = {
+            PaperProps: {
+                style: {
+                    maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                    width: 250,
+                },
+            },
+        };
         return <div>
             <AppNavbar/>
             <Box sx={{'& .MuiTextField-root': {m: 1, width: '25ch'},}} noValidate autoComplete="off">
@@ -82,6 +119,29 @@ class MovieEdit extends Component {
                                        className="w-50"
                                        onChange={this.handleChange} autoComplete="name" required/>
                         </FormGroup>
+                        <FormControl sx={{m: 1, width: 300}}>
+                            <InputLabel id="demo-multiple-chip-label">Genres</InputLabel>
+                            <Select
+                                labelId="demo-multiple-chip-label"
+                                id="demo-multiple-chip"
+                                multiple
+                                value={item.genres}
+                                onChange={this.handleChangeGenres}
+                                input={<OutlinedInput id="select-multiple-chip" label="Chip"/>}
+                                renderValue={(selected) => (
+                                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
+                                        {selected.map((value) => (
+                                            <Chip key={value.id} label={value.name}/>
+                                        ))}
+                                    </Box>
+                                )}>
+                                {this.state.genres.map((name) => (
+                                    <MenuItem key={name} value={name}>
+                                        {name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                         <FormGroup>
                             <TextField label="Year" type="number" variant="outlined" name="year" id="year"
                                        value={item.year || ''}
@@ -122,7 +182,8 @@ class MovieEdit extends Component {
                         <FormControl sx={{m: 1}}>
                             <FormGroup>
                                 <Typography component="legend">Rating</Typography>
-                                <Rating name="rating" value={item.rating || ''} onChange={this.handleChange} precision={1}/>
+                                <Rating name="rating" value={item.rating || ''} onChange={this.handleChange}
+                                        precision={1}/>
                             </FormGroup>
                         </FormControl>
                         <FormGroup>

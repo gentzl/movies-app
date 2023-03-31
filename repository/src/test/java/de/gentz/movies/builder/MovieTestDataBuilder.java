@@ -3,6 +3,9 @@ package de.gentz.movies.builder;
 import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MovieTestDataBuilder {
     private static Long id;
     private String name = "Rambo 1";
@@ -10,7 +13,7 @@ public class MovieTestDataBuilder {
     private final int year = 1986;
     private final String synopsis = "lorem ipsum";
 
-    private Genre genre;
+    private final Set<Genre> genres = new HashSet<>();
 
     public MovieTestDataBuilder idNull() {
         id = null;
@@ -22,9 +25,8 @@ public class MovieTestDataBuilder {
         return this;
     }
 
-
     public MovieTestDataBuilder genre(Genre genre) {
-        this.genre = genre;
+        this.genres.add(genre);
         return this;
     }
 
@@ -39,7 +41,7 @@ public class MovieTestDataBuilder {
                 .ageLimit(ageLimit)
                 .year(year)
                 .synopsis(synopsis)
-                .genre(genre)
+                .genres(genres)
                 .build();
     }
 }

@@ -54,16 +54,18 @@ public class MovieRepositoryTest {
         titanicMovie = movieRepository.getReferenceById(titanicMovie.getId());
 
         assertEquals("Titanic", titanicMovie.getName());
-        assertEquals("Drama", titanicMovie.getGenre().getName());
+        assertEquals("Drama", titanicMovie.getGenres().iterator().next().getName());
     }
 
     private synchronized void saveMovieWithAllReferences(Movie movie) {
-        if (genreRepository.findByName(movie.getGenre().getName()) == null) {
-            genreRepository.save(movie.getGenre());
-        }
-
+        movie.getGenres().forEach(this::saveGenre);
         movieRepository.save(movie);
     }
 
+    private void saveGenre(Genre genre) {
+        if (genreRepository.findByName(genre.getName()) == null) {
+            genreRepository.save(genre);
+        }
+    }
 
 }

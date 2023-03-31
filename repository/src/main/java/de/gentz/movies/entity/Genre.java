@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "genres")
 @Data
@@ -16,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Genre {
     @Id
+    @Column(name = "genre_id")
     @GeneratedValue
     private Long id;
 
@@ -23,8 +22,4 @@ public class Genre {
     @Length(min = 1, max = 100)
     @Column(unique = true)
     private String name;
-
-    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Movie> movieSet;
-
 }
