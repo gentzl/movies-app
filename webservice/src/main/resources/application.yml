@@ -1,0 +1,33 @@
+logging:
+  level:
+    root: debug
+    de.gentz: DEBUG
+
+spring:
+  datasource:
+    #url: jdbc:h2:mem:movieDb?createDatabaseIfNotExist=true
+    #driverClassName: org.h2.Driver
+    #database-platform: org.hibernate.dialect.H2Dialect
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/movies
+    username: postgres
+    password: example
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+    #  liquibase:
+    #  url: jdbc:h2:mem:movieDb?createDatabaseIfNotExist=true
+    #    url: jdbc:postgresql://localhost:5432/movies
+    #   password: example
+    #  user: postgres
+#  h2:
+#    console:
+#      enabled: true
+#      settings:
+#        web-allow-others: true
+#        trace: true
+
