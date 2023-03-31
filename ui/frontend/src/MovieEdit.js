@@ -73,9 +73,9 @@ class MovieEdit extends Component {
 
     handleChangeGenres(event) {
         let item = {...this.state.item};
-        item["genres"] = event.target.value.map(function (genre) {
-            return {id: genre.key, name: genre.value};
-        })
+        item["genres"] = event.target.value.map((o, i) => {
+            return {id: o};
+        });
         this.setState({item});
     }
 
@@ -151,8 +151,8 @@ class MovieEdit extends Component {
                                         {genreOptions.map((g) => (
                                             <MenuItem
                                                 key={g.id}
-                                                value={g.name}
-                                                style={getStyles(g.name, item.genres)}
+                                                value={g.id}
+                                                // style={getStyles(g.name, item.genres)}
                                             >
                                                 {g.name}
                                             </MenuItem>
