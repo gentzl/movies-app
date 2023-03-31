@@ -74,7 +74,7 @@ class MovieList extends Component {
                 <AppNavbar/>
                 <Container fluid>
                     <div className="container-fluid d-flex justify-content-end">
-                        <Button className="mt-1"  color="success" tag={Link} to="/movies/new">Add Movie</Button>
+                        <Button className="mt-1" color="success" tag={Link} to="/movies/new">Add Movie</Button>
                     </div>
                     <h3>Movies</h3>
                     <TextField id="search-movies" label="Search movie" type="search" variant="filled" onChange={(e) => {

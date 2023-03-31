@@ -6,7 +6,6 @@ import {Button, Container, FormGroup} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {
     Box,
-    Chip,
     FormControl,
     InputLabel,
     MenuItem,
@@ -45,7 +44,11 @@ class MovieEdit extends Component {
 
         fetch('/genres')
             .then(response => response.json())
-            .then(data => this.state.genres = data);
+            .then(res => {
+                this.setState({
+                    genres: res
+                })
+            })
     }
 
     handleChange(event) {
@@ -68,16 +71,11 @@ class MovieEdit extends Component {
         this.setState({item});
     }
 
-    handleChangeGenres = (event) => {
-        const {
-            target: {value},
-        } = event;
-        /* setPersonName(
-             // On autofill we get a stringified value.
-             typeof value === 'string' ? value.split(',') : value,
-         );*/
-    };
-
+    handleChangeGenres(event) {
+        let item = {...this.state.item};
+        item["genres"] = event.target.value;
+        this.setState({item});
+    }
 
     async handleSubmit(event) {
         event.preventDefault();
@@ -96,8 +94,8 @@ class MovieEdit extends Component {
 
     render() {
         const {item} = this.state;
-        const {genres} = this.state.genres;
         const title = <h2>{item.id ? 'Edit Movie' : 'Add Movie'}</h2>;
+
         const ITEM_HEIGHT = 48;
         const ITEM_PADDING_TOP = 8;
         const MenuProps = {
@@ -108,6 +106,10 @@ class MovieEdit extends Component {
                 },
             },
         };
+        let genreOptions = this.state.genres.map(function (genre) {
+            return {id: genre.id, name: genre.name};
+        })
+
         return <div>
             <AppNavbar/>
             <Box sx={{'& .MuiTextField-root': {m: 1, width: '25ch'},}} noValidate autoComplete="off">
@@ -121,26 +123,34 @@ class MovieEdit extends Component {
                         </FormGroup>
                         <FormControl sx={{m: 1, width: 300}}>
                             <InputLabel id="demo-multiple-chip-label">Genres</InputLabel>
-                            <Select
-                                labelId="demo-multiple-chip-label"
-                                id="demo-multiple-chip"
-                                multiple
-                                value={item.genres}
-                                onChange={this.handleChangeGenres}
-                                input={<OutlinedInput id="select-multiple-chip" label="Chip"/>}
-                                renderValue={(selected) => (
-                                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
-                                        {selected.map((value) => (
-                                            <Chip key={value.id} label={value.name}/>
+
+                            <div>
+                                <FormControl sx={{m: 1, width: 300}}>
+
+                                    {<Select
+                                        labelId="demo-multiple-name-label"
+                                        id="demo-multiple-name"
+                                        multiple={true}
+                                        onChange={this.handleChangeGenres.bind(this)}
+                                        input={<OutlinedInput label="Name"/>}
+                                        MenuProps={MenuProps}
+                                        value={item.genres != null ? item.genres : []}
+                                    >
+                                        {/*    item.genres.map(g=> ({
+                                        key: g.id,
+                                        value: g.name
+                                    }))*/}
+                                        {genreOptions.map((g) => (
+                                            <MenuItem
+                                                key={g.id}
+                                                value={g.name}
+                                            >
+                                                {g.name}
+                                            </MenuItem>
                                         ))}
-                                    </Box>
-                                )}>
-                                {this.state.genres.map((name) => (
-                                    <MenuItem key={name} value={name}>
-                                        {name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                                    </Select>}
+                                </FormControl>
+                            </div>
                         </FormControl>
                         <FormGroup>
                             <TextField label="Year" type="number" variant="outlined" name="year" id="year"
