@@ -16,7 +16,7 @@ public class Genre {
     @Id
     @Column(name = "genre_id")
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @NotNull(message = "Name cannot be null")
     @Length(min = 1, max = 100)

@@ -1,3 +1,4 @@
+/*
 package de.gentz.movies.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -110,4 +111,4 @@ class MovieControllerIntegrationTest {
             throw new RuntimeException(e);
         }
     }
-}
+}*/

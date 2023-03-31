@@ -1,6 +1,5 @@
-package de.gentz.movies.entity;
+package de.gentz.movies.webservice.model;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -10,17 +9,13 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Set;
 
 
-@Entity
-@Table(name = "movies")
 @Data
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movie {
-    @Id
-    @GeneratedValue
-    @Column(name = "movie_id")
+public class MovieDto {
+
     private Integer id;
 
     @NotNull(message = "Name cannot be null")
@@ -42,10 +37,8 @@ public class Movie {
     @Length(max = 500)
     private String synopsis;
 
-    @ManyToMany
-    @JoinTable(name = "movies_genres", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @NotNull(message = "Genre cannot be null")
-    private Set<Genre> genres;
+    private Set<Integer> genreIds;
 
     /*TODO: Movies, Actors, Directors*/
 }

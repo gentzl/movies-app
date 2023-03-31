@@ -24,6 +24,7 @@ class MovieEdit extends Component {
         ageLimit: 12,
         rating: 5,
         synopsis: '',
+        genreIds: []
     };
 
     constructor(props) {
@@ -73,9 +74,7 @@ class MovieEdit extends Component {
 
     handleChangeGenres(event) {
         let item = {...this.state.item};
-        item["genres"] = event.target.value.map((o, i) => {
-            return {id: o};
-        });
+        item["genreIds"] = event.target.value;
         this.setState({item});
     }
 
@@ -95,8 +94,8 @@ class MovieEdit extends Component {
     }
 
     render() {
-        const {item} = this.state;
-        const title = <h2>{item.id ? 'Edit Movie' : 'Add Movie'}</h2>;
+        const {item: {ageLimit, genreIds, id, name, rating, synopsis, year}} = this.state;
+        const title = <h2>{id ? 'Edit Movie' : 'Add Movie'}</h2>;
 
         const ITEM_HEIGHT = 48;
         const ITEM_PADDING_TOP = 8;
@@ -128,7 +127,7 @@ class MovieEdit extends Component {
                     {title}
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
-                            <TextField label="Name" variant="outlined" name="name" id="name" value={item.name || ''}
+                            <TextField label="Name" variant="outlined" name="name" id="name" value={name || ''}
                                        className="w-50"
                                        onChange={this.handleChange} autoComplete="name" required/>
                         </FormGroup>
@@ -146,8 +145,8 @@ class MovieEdit extends Component {
                                         onChange={this.handleChangeGenres.bind(this)}
                                         input={<OutlinedInput label="Genres"/>}
                                         MenuProps={MenuProps}
-                                        value={item.genres != null ? item.genres : []}
-                                        required>
+                                        value={genreIds != null ? genreIds : []}
+                                    >
                                         {genreOptions.map((g) => (
                                             <MenuItem
                                                 key={g.id}
@@ -163,7 +162,7 @@ class MovieEdit extends Component {
                         </FormControl>
                         <FormGroup>
                             <TextField label="Year" type="number" variant="outlined" name="year" id="year"
-                                       value={item.year || ''}
+                                       value={year || ''}
                                        onChange={this.handleChange} autoComplete="year" required/>
                         </FormGroup>
                         <FormGroup>
@@ -172,7 +171,7 @@ class MovieEdit extends Component {
                                 <Select
                                     labelId="ageLimit"
                                     id="ageLimit"
-                                    value={item.ageLimit}
+                                    value={ageLimit}
                                     label="Age Limit"
                                     onChange={this.handleChangeAgeLimit}
                                     required>
@@ -201,14 +200,14 @@ class MovieEdit extends Component {
                         <FormControl sx={{m: 1}}>
                             <FormGroup>
                                 <Typography component="legend">Rating</Typography>
-                                <Rating name="rating" value={item.rating || ''} onChange={this.handleChange}
+                                <Rating name="rating" value={rating || ''} onChange={this.handleChange}
                                         precision={1}/>
                             </FormGroup>
                         </FormControl>
                         <FormGroup>
                             <TextField label="Synopsis" variant="outlined" name="synopsis" id="synopsis"
                                        className="w-50"
-                                       value={item.synopsis || ''}
+                                       value={synopsis || ''}
                                        onChange={this.handleChange} autoComplete="synopsis" multiline
                                        rows={3}/>
                         </FormGroup>
