@@ -44,9 +44,9 @@ class MovieEdit extends Component {
 
         fetch('/genres')
             .then(response => response.json())
-            .then(res => {
+            .then(data => {
                 this.setState({
-                    genres: res
+                    genres: data
                 })
             })
     }
@@ -73,7 +73,9 @@ class MovieEdit extends Component {
 
     handleChangeGenres(event) {
         let item = {...this.state.item};
-        item["genres"] = event.target.value;
+        item["genres"] = event.target.value.map(function (genre) {
+            return {id: genre.key, name: genre.value};
+        })
         this.setState({item});
     }
 
@@ -110,6 +112,15 @@ class MovieEdit extends Component {
             return {id: genre.id, name: genre.name};
         })
 
+        function getStyles(name, genres) {
+            return {
+                fontWeight:
+                    genres != null && genres.map(g => g.name).indexOf(name) === -1
+                        ? 100
+                        : 600
+            };
+        }
+
         return <div>
             <AppNavbar/>
             <Box sx={{'& .MuiTextField-root': {m: 1, width: '25ch'},}} noValidate autoComplete="off">
@@ -131,19 +142,17 @@ class MovieEdit extends Component {
                                         labelId="demo-multiple-name-label"
                                         id="demo-multiple-name"
                                         multiple={true}
+                                        variant="outlined"
                                         onChange={this.handleChangeGenres.bind(this)}
-                                        input={<OutlinedInput label="Name"/>}
+                                        input={<OutlinedInput label="Genres"/>}
                                         MenuProps={MenuProps}
                                         value={item.genres != null ? item.genres : []}
-                                    >
-                                        {/*    item.genres.map(g=> ({
-                                        key: g.id,
-                                        value: g.name
-                                    }))*/}
+                                        required>
                                         {genreOptions.map((g) => (
                                             <MenuItem
                                                 key={g.id}
                                                 value={g.name}
+                                                style={getStyles(g.name, item.genres)}
                                             >
                                                 {g.name}
                                             </MenuItem>
