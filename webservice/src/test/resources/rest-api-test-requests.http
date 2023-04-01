@@ -1,0 +1,61 @@
+### create a movie
+POST http://localhost:8080/movies
+Content-Type: application/json
+
+{
+  "name": "Rambo 3",
+  "year": 2023,
+  "ageLimit": 12,
+  "rating": 4,
+  "synopsis": "lorem ipsum"
+}
+
+### create a movie (validation error)
+POST http://localhost:8080/movies
+Content-Type: application/json
+
+{
+  "name": null,
+  "year": 2023,
+  "ageLimit": 12,
+  "rating": 4,
+  "synopsis": "lorem ipsum"
+}
+
+<> 2023-03-29T234416.400.json
+<> 2023-03-29T231534.400.json
+<> 2023-03-29T231532.400.json
+<> 2023-03-29T173820.400.json
+<> 2023-03-29T173615.500.json
+<> 2023-03-29T173452.500.json
+<> 2023-03-29T173435.500.json
+
+
+### fetch all movies
+GET http://localhost:8080/movies
+
+### fetch all genres
+GET http://localhost:8080/genres
+
+<> 2023-03-30T220037.200.json
+<> 2023-03-30T220033.200.json
+<> 2023-03-30T220022.200.json
+
+
+### create a movie
+POST http://localhost:8080/movies/find
+Content-Type: text/plain
+
+Rambo
+
+
+<> 2023-03-29T235338.200.json
+<> 2023-03-29T235315.200.json
+<> 2023-03-29T234633.200.json
+<> 2023-03-29T234619.400.html
+<> 2023-03-29T234611.400.html
+<> 2023-03-29T234528.400.html
+<> 2023-03-29T234447.200.json
+<> 2023-03-29T234419.200.json
+<> 2023-03-29T234417.200.json
+<> 2023-03-29T234410.200.json

@@ -6,6 +6,7 @@ import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 import de.gentz.movies.webservice.model.MovieDto;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -19,8 +20,8 @@ public class MovieDtoMapper {
                 .year(movie.getYear())
                 .ageLimit(movie.getAgeLimit())
                 .synopsis(movie.getSynopsis())
-                .genreIds(movie.getGenres() != null ? movie.getGenres().stream().map(Genre::getId).collect(Collectors.toSet()) : null)
-                .actorIds(movie.getActors() != null ? movie.getActors().stream().map(Actor::getId).collect(Collectors.toSet()) : new HashSet<>())
+                .genreIds(movie.getGenres() != null ? movie.getGenres().stream().map(Genre::getId).collect(Collectors.toList()) : new ArrayList<>())
+                .actorIds(movie.getActors() != null ? movie.getActors().stream().map(Actor::getId).collect(Collectors.toList()) : new ArrayList<>())
                 .directorId(movie.getDirector() != null ? movie.getDirector().getId() : null)
                 .build();
     }

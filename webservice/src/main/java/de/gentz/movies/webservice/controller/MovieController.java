@@ -4,6 +4,8 @@ import de.gentz.movies.entity.Movie;
 import de.gentz.movies.repository.MovieRepository;
 import de.gentz.movies.webservice.mapper.MovieDtoMapper;
 import de.gentz.movies.webservice.model.MovieDto;
+import de.gentz.movies.webservice.model.importer.ImportMovie;
+import de.gentz.movies.webservice.service.MovieImporter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,6 +29,8 @@ import java.util.stream.Collectors;
 public class MovieController {
 
     private final MovieRepository movieRepository;
+
+    private final MovieImporter movieImporter;
 
     @GetMapping
     public List<MovieDto> getMovies() {
@@ -77,6 +81,12 @@ public class MovieController {
         movieRepository.deleteById(id);
         log.debug("movie with id='{}' deleted", id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/import")
+    public ResponseEntity importMovies(@RequestBody List<ImportMovie> movieImports) {
+        var importResult = movieImporter.importMovies(movieImports);
+        return ResponseEntity.ok().body(importResult);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

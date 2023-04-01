@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Set;
+import java.util.List;
 
 
 @Data
@@ -38,9 +38,9 @@ public class MovieDto {
     private String synopsis;
 
     @NotNull(message = "Genre ids cannot be null")
-    private Set<Integer> genreIds;
+    private List<Integer> genreIds;
 
-    private Set<Integer> actorIds;
+    private List<Integer> actorIds;
 
     private Integer directorId;
 

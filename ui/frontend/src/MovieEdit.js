@@ -131,10 +131,10 @@ class MovieEdit extends Component {
         })
 
 
-        function getStylesForGenreOptions(name, genreIds) {
+        function getStylesForOptions(id, ids) {
             return {
                 fontWeight:
-                    genreIds != null && genreIds.indexOf(name) === -1
+                    ids != null && ids.indexOf(id) === -1
                         ? 100
                         : 600
             };
@@ -151,11 +151,10 @@ class MovieEdit extends Component {
                                        className="w-50"
                                        onChange={this.handleChange} autoComplete="name" required/>
                         </FormGroup>
-                        <FormGroup sx={{m: 1, minWidth: 80}}>
-                            <InputLabel>Genres</InputLabel>
-                            <div>
-                                <FormControl sx={{m: 1, width: 300}}>
-
+                        <FormGroup sx={{m: 1, width: 300}}>
+                            <FormControl sx={{m: 1, minWidth: 80}}>
+                                <InputLabel>Genres</InputLabel>
+                                <div>
                                     {<Select
                                         multiple={true}
                                         variant="outlined"
@@ -168,19 +167,21 @@ class MovieEdit extends Component {
                                             <MenuItem
                                                 key={g.id}
                                                 value={g.id}
-                                                style={getStylesForGenreOptions(g.id, genreIds)}
+                                                style={getStylesForOptions(g.id, genreIds)}
                                             >
                                                 {g.name}
                                             </MenuItem>
                                         ))}
                                     </Select>}
-                                </FormControl>
-                            </div>
+                                </div>
+                            </FormControl>
                         </FormGroup>
                         <FormGroup sx={{m: 1, minWidth: 80}}>
-                            <TextField label="Year" type="number" variant="outlined" name="year" id="year"
-                                       value={year || ''}
-                                       onChange={this.handleChange} autoComplete="year" required/>
+                            <FormControl>
+                                <TextField label="Year" type="number" variant="outlined" name="year" id="year"
+                                           value={year || ''}
+                                           onChange={this.handleChange} autoComplete="year" required/>
+                            </FormControl>
                         </FormGroup>
                         <FormGroup sx={{m: 1, minWidth: 80}}>
                             <FormControl sx={{m: 1, minWidth: 80}}>
@@ -203,9 +204,8 @@ class MovieEdit extends Component {
                             </FormControl>
 
                         </FormGroup>
-
                         <FormGroup sx={{m: 1}}>
-                            <FormControl>
+                            <FormControl sx={{m: 1, width: 300}}>
                                 <Typography component="legend">Rating</Typography>
                                 <Rating name="rating" value={rating || ''} onChange={this.handleChange}
                                         precision={1}/>
@@ -227,7 +227,7 @@ class MovieEdit extends Component {
                                             <MenuItem
                                                 key={g.id}
                                                 value={g.id}
-                                                style={getStylesForGenreOptions(g.id, actorIds)}
+                                                style={getStylesForOptions(g.id, actorIds)}
                                             >
                                                 {g.name}
                                             </MenuItem>
@@ -241,7 +241,7 @@ class MovieEdit extends Component {
                                        className="w-50"
                                        value={synopsis || ''}
                                        onChange={this.handleChange} autoComplete="synopsis" multiline
-                                       rows={3}/>
+                                       rows={5}/>
                         </FormGroup>
                         <FormGroup sx={{m: 1}}>
                             <Button variant="contained" color="primary" type="submit">Save</Button>{' '}

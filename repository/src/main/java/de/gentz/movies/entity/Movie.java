@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
@@ -15,7 +16,7 @@ import java.util.Set;
 @Table(name = "movies")
 @Data
 @ToString
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Movie {
@@ -46,10 +47,12 @@ public class Movie {
     @ManyToMany
     @JoinTable(name = "movies_genres", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @NotNull(message = "Genre cannot be null")
+    @Builder.Default
     private Set<Genre> genres = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "movies_actors", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "actors_id"))
+    @Builder.Default
     private Set<Actor> actors = new HashSet<>();
 
     @ManyToOne

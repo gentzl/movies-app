@@ -9,13 +9,16 @@ import de.gentz.movies.webservice.builder.MovieTestDataBuilder;
 import de.gentz.movies.webservice.mapper.MovieDtoMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -29,6 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = MovieController.class)
 @AutoConfigureMockMvc
 class MovieControllerIntegrationTest {
+    @Value("movies-1.json")
+    Resource movieImportFileResource;
 
     @MockBean
     MovieRepository movieRepository;
@@ -107,6 +112,22 @@ class MovieControllerIntegrationTest {
         mvc.perform(MockMvcRequestBuilders
                         .post("/movies")
                         .content(asJsonString(MovieDtoMapper.mapToDto(movieToCreate)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+
+        verify(movieRepository).save(any());
+    }
+
+
+    @Test
+    public void importMovies_Valid() throws Exception {
+
+        String contentAsString = movieImportFileResource.getContentAsString(StandardCharsets.UTF_8);
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/importMovies")
+                        .content(contentAsString)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
