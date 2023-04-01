@@ -111,10 +111,10 @@ class MovieEdit extends Component {
             return {id: genre.id, name: genre.name};
         })
 
-        function getStyles(name, genres) {
+        function getStylesForGenreOptions(name, genreIds) {
             return {
                 fontWeight:
-                    genres != null && genres.map(g => g.name).indexOf(name) === -1
+                    genreIds != null && genreIds.indexOf(name) === -1
                         ? 100
                         : 600
             };
@@ -151,7 +151,7 @@ class MovieEdit extends Component {
                                             <MenuItem
                                                 key={g.id}
                                                 value={g.id}
-                                                // style={getStyles(g.name, item.genres)}
+                                                style={getStylesForGenreOptions(g.id, genreIds)}
                                             >
                                                 {g.name}
                                             </MenuItem>
@@ -175,25 +175,13 @@ class MovieEdit extends Component {
                                     label="Age Limit"
                                     onChange={this.handleChangeAgeLimit}
                                     required>
-                                    <MenuItem value={0}>0</MenuItem>
-                                    <MenuItem value={1}>1</MenuItem>
-                                    <MenuItem value={2}>2</MenuItem>
-                                    <MenuItem value={3}>3</MenuItem>
-                                    <MenuItem value={4}>4</MenuItem>
-                                    <MenuItem value={5}>5</MenuItem>
-                                    <MenuItem value={6}>6</MenuItem>
-                                    <MenuItem value={7}>7</MenuItem>
-                                    <MenuItem value={8}>8</MenuItem>
-                                    <MenuItem value={9}>9</MenuItem>
-                                    <MenuItem value={10}>10</MenuItem>
-                                    <MenuItem value={11}>11</MenuItem>
-                                    <MenuItem value={12}>12</MenuItem>
-                                    <MenuItem value={13}>13</MenuItem>
-                                    <MenuItem value={14}>14</MenuItem>
-                                    <MenuItem value={15}>15</MenuItem>
-                                    <MenuItem value={16}>16</MenuItem>
-                                    <MenuItem value={17}>17</MenuItem>
-                                    <MenuItem value={18}>18</MenuItem>
+                                    {(() => {
+                                        let td = [];
+                                        for (let i = 1; i <= 21; i++) {
+                                            td.push(<MenuItem value={i}>{i}</MenuItem>);
+                                        }
+                                        return td;
+                                    })()}
                                 </Select>
                             </FormControl>
                         </FormGroup>
