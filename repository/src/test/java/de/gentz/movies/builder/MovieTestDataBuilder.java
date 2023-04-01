@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MovieTestDataBuilder {
-    private static Long id;
+    private volatile Integer id;
     private String name = "Rambo 1";
     private final int ageLimit = 12;
     private final int year = 1986;

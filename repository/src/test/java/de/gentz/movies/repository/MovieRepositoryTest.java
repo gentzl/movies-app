@@ -51,7 +51,7 @@ public class MovieRepositoryTest {
                 .build();
         saveMovieWithAllReferences(titanicMovie);
 
-        titanicMovie = movieRepository.getReferenceById(titanicMovie.getId());
+        titanicMovie = movieRepository.getReferenceById(titanicMovie.getId().longValue());
 
         assertEquals("Titanic", titanicMovie.getName());
         assertEquals("Drama", titanicMovie.getGenres().iterator().next().getName());

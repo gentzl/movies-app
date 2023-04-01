@@ -3,7 +3,7 @@ package de.gentz.movies.builder;
 import de.gentz.movies.entity.Genre;
 
 public class GenreTestDataBuilder {
-    private static Long id;
+    private volatile Integer id;
     private String name = "Action";
 
     public GenreTestDataBuilder name(String name) {
