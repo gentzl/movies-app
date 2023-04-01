@@ -57,6 +57,11 @@
                         <artifactId>javassist</artifactId>
                         <version>3.27.0-GA</version>
                     </dependency>
+                    <dependency>
+                        <groupId>javax.el</groupId>
+                        <artifactId>javax.el-api</artifactId>
+                        <version>3.0.0</version>
+                    </dependency>
                 </dependencies>
             </plugin>
         </plugins>

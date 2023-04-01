@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -45,7 +46,14 @@ public class Movie {
     @ManyToMany
     @JoinTable(name = "movies_genres", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @NotNull(message = "Genre cannot be null")
-    private Set<Genre> genres;
+    private Set<Genre> genres = new HashSet<>();
 
-    /*TODO: Movies, Actors, Directors*/
+    @ManyToMany
+    @JoinTable(name = "movies_actors", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "actors_id"))
+    private Set<Actor> actors = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+//    @Column(name = "director_id")
+    private Director director;
 }

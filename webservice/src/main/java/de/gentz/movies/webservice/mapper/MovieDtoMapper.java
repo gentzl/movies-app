@@ -1,11 +1,15 @@
 package de.gentz.movies.webservice.mapper;
 
+import de.gentz.movies.entity.Actor;
+import de.gentz.movies.entity.Director;
 import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 import de.gentz.movies.webservice.model.MovieDto;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
+// TODO: test
 public class MovieDtoMapper {
     public static MovieDto mapToDto(Movie movie) {
         return MovieDto.builder()
@@ -15,7 +19,9 @@ public class MovieDtoMapper {
                 .year(movie.getYear())
                 .ageLimit(movie.getAgeLimit())
                 .synopsis(movie.getSynopsis())
-                .genreIds(movie.getGenres().stream().map(Genre::getId).collect(Collectors.toSet()))
+                .genreIds(movie.getGenres() != null ? movie.getGenres().stream().map(Genre::getId).collect(Collectors.toSet()) : null)
+                .actorIds(movie.getActors() != null ? movie.getActors().stream().map(Actor::getId).collect(Collectors.toSet()) : new HashSet<>())
+                .directorId(movie.getDirector() != null ? movie.getDirector().getId() : null)
                 .build();
     }
 
@@ -27,7 +33,9 @@ public class MovieDtoMapper {
                 .year(movie.getYear())
                 .ageLimit(movie.getAgeLimit())
                 .synopsis(movie.getSynopsis())
-                .genres(movie.getGenreIds().stream().map(g -> Genre.builder().id(g).build()).collect(Collectors.toSet()))
+                .genres(movie.getGenreIds() != null ? movie.getGenreIds().stream().map(g -> Genre.builder().id(g).build()).collect(Collectors.toSet()) : new HashSet<>())
+                .actors(movie.getActorIds() != null ? movie.getActorIds().stream().map(a -> Actor.builder().id(a).build()).collect(Collectors.toSet()) : new HashSet<>())
+                .director(movie.getDirectorId() != null ? Director.builder().id(movie.getDirectorId()).build() : null)
                 .build();
     }
 }

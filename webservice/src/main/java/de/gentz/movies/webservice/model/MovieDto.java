@@ -37,8 +37,12 @@ public class MovieDto {
     @Length(max = 500)
     private String synopsis;
 
-    @NotNull(message = "Genre cannot be null")
+    @NotNull(message = "Genre ids cannot be null")
     private Set<Integer> genreIds;
 
-    /*TODO: Movies, Actors, Directors*/
+    private Set<Integer> actorIds;
+
+    private Integer directorId;
+
+    /*TODO:  Directors*/
 }
