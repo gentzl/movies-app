@@ -14,7 +14,8 @@ public class MovieDtoMapper {
                 .rating(movie.getRating())
                 .year(movie.getYear())
                 .ageLimit(movie.getAgeLimit())
-                .genreIds(movie.getGenres().stream().map(g -> g.getId().intValue()).collect(Collectors.toSet()))
+                .synopsis(movie.getSynopsis())
+                .genreIds(movie.getGenres().stream().map(Genre::getId).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class MovieDtoMapper {
                 .rating(movie.getRating())
                 .year(movie.getYear())
                 .ageLimit(movie.getAgeLimit())
+                .synopsis(movie.getSynopsis())
                 .genres(movie.getGenreIds().stream().map(g -> Genre.builder().id(g).build()).collect(Collectors.toSet()))
                 .build();
     }

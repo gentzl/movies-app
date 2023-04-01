@@ -1,10 +1,12 @@
-/*
+
 package de.gentz.movies.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.gentz.movies.entity.Movie;
 import de.gentz.movies.repository.MovieRepository;
+import de.gentz.movies.webservice.builder.GenreTestDataBuilder;
 import de.gentz.movies.webservice.builder.MovieTestDataBuilder;
+import de.gentz.movies.webservice.mapper.MovieDtoMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,9 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(controllers = MovieController.class)
 @AutoConfigureMockMvc
 class MovieControllerIntegrationTest {
+
     @MockBean
     MovieRepository movieRepository;
 
@@ -57,7 +60,7 @@ class MovieControllerIntegrationTest {
 
     @Test
     public void getMovie_Found() throws Exception {
-        when(movieRepository.findById(movie1.getId())).thenReturn(Optional.of(movie1));
+        when(movieRepository.findById(movie1.getId().longValue())).thenReturn(Optional.of(movie1));
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/movies/" + movie1.getId())
@@ -86,14 +89,24 @@ class MovieControllerIntegrationTest {
     @Test
     public void createMovie_Valid() throws Exception {
         var movieName = "Titanic";
-        var movieToCreate = new MovieTestDataBuilder().idNull().name(movieName).build();
-        var createdMovie = new MovieTestDataBuilder().idNull().name(movieName).build();
+        var genre = new GenreTestDataBuilder().build();
+
+        var movieToCreate = new MovieTestDataBuilder()
+                .idNull()
+                .name(movieName)
+                .genre(genre)
+                .build();
+        var createdMovie = new MovieTestDataBuilder()
+                .idNull()
+                .genre(genre)
+                .name(movieName)
+                .build();
 
         when(movieRepository.save(any())).thenReturn(createdMovie);
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/movies")
-                        .content(asJsonString(movieToCreate))
+                        .content(asJsonString(MovieDtoMapper.mapToDto(movieToCreate)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -103,7 +116,6 @@ class MovieControllerIntegrationTest {
     }
 
     // TODO: test more methods
-
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
@@ -111,4 +123,4 @@ class MovieControllerIntegrationTest {
             throw new RuntimeException(e);
         }
     }
-}*/
+}
