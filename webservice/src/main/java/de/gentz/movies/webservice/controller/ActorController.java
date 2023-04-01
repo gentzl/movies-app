@@ -20,7 +20,7 @@ public class ActorController {
 
     @GetMapping
     public List<Actor> getGenres() {
-        var actors = actorRepository.findAll();
+        var actors = actorRepository.findAllByOrderByLastnameAsc();
         log.debug("found {} actors", actors.size());
         return actors;
     }

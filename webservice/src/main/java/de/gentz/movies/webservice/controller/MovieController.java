@@ -34,20 +34,20 @@ public class MovieController {
 
     @GetMapping
     public List<MovieDto> getMovies() {
-        List<Movie> movies = movieRepository.findAll();
+        List<Movie> movies = movieRepository.findAllByOrderByNameAsc();
         log.debug("found {} movies", movies.size());
         return movies.stream().map(MovieDtoMapper::mapToDto).collect(Collectors.toList());
     }
 
     @PostMapping(path = "/find")
-    public ResponseEntity findMovies(@RequestBody String searchText) {
-        List<Movie> movies = movieRepository.findByNameContainingIgnoreCase(searchText);
+    public ResponseEntity findMovies(@RequestBody(required = false) String searchText) {
+        List<Movie> movies = movieRepository.findByNameContainingIgnoreCaseOrderByNameAsc(searchText);
         log.debug("found {} movies", movies.size());
         return ResponseEntity.ok(movies.stream().map(MovieDtoMapper::mapToDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MovieDto> getMovie(@PathVariable Long id) {
+    public ResponseEntity<MovieDto> getMovie(@PathVariable Integer id) {
         var movie = movieRepository.findById(id);
         log.debug("found movie: {}", movie);
 
@@ -68,7 +68,7 @@ public class MovieController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateMovie(@PathVariable @Valid Integer id, @RequestBody MovieDto movieDto) {
-        var movieFromDb = movieRepository.findById(id.longValue()).orElseThrow(RuntimeException::new);
+        var movieFromDb = movieRepository.findById(id).orElseThrow(RuntimeException::new);
         log.debug("movieDto updated: {}", movieDto);
         var movie = MovieDtoMapper.mapTo(movieDto);
         movieFromDb = movieRepository.save(movie);
@@ -77,7 +77,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteMovie(@PathVariable Long id) {
+    public ResponseEntity deleteMovie(@PathVariable Integer id) {
         movieRepository.deleteById(id);
         log.debug("movie with id='{}' deleted", id);
         return ResponseEntity.ok().build();

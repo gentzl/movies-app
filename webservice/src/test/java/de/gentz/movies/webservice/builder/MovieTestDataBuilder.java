@@ -1,5 +1,6 @@
 package de.gentz.movies.webservice.builder;
 
+import de.gentz.movies.entity.Director;
 import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 
@@ -7,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MovieTestDataBuilder {
-    private volatile Integer id = 1;
+    private static Integer id = 1;
 
     private String name = "Rambo 1";
     private final int ageLimit = 12;
@@ -15,6 +16,8 @@ public class MovieTestDataBuilder {
     private final String synopsis = "lorem ipsum";
 
     private final Set<Genre> genres = new HashSet<>();
+
+    private Director director;
 
     public MovieTestDataBuilder idNull() {
         id = null;
@@ -31,7 +34,13 @@ public class MovieTestDataBuilder {
         return this;
     }
 
-    public Movie build() {
+
+    public MovieTestDataBuilder director(Director director) {
+        this.director = director;
+        return this;
+    }
+
+    public synchronized Movie build() {
         if (id != null) {
             id++;
         }
@@ -43,6 +52,7 @@ public class MovieTestDataBuilder {
                 .year(year)
                 .synopsis(synopsis)
                 .genres(genres)
+                .director(director)
                 .build();
     }
 }

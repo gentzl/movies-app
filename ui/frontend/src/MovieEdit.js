@@ -26,7 +26,7 @@ class MovieEdit extends Component {
         synopsis: '',
         genreIds: [],
         actorIds: [],
-        directorId: null
+        directorId: ''
     };
 
     constructor(props) {
@@ -34,7 +34,8 @@ class MovieEdit extends Component {
         this.state = {
             item: this.emptyItem,
             genres: [],
-            actors: []
+            actors: [],
+            directors: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -58,6 +59,13 @@ class MovieEdit extends Component {
             .then(data => {
                 this.setState({
                     actors: data
+                })
+            })
+        fetch('/directors')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    directors: data
                 })
             })
     }
@@ -94,6 +102,12 @@ class MovieEdit extends Component {
         this.setState({item});
     }
 
+    handleChangeDirector(event) {
+        let item = {...this.state.item};
+        item["directorId"] = event.target.value;
+        this.setState({item});
+    }
+
     async handleSubmit(event) {
         event.preventDefault();
         const {item} = this.state;
@@ -110,7 +124,7 @@ class MovieEdit extends Component {
     }
 
     render() {
-        const {item: {ageLimit, id, name, rating, synopsis, year, genreIds, actorIds}} = this.state;
+        const {item: {ageLimit, id, name, rating, synopsis, year, genreIds, actorIds, directorId}} = this.state;
         const title = <h2>{id ? 'Edit Movie' : 'Add Movie'}</h2>;
 
         const ITEM_HEIGHT = 48;
@@ -130,6 +144,9 @@ class MovieEdit extends Component {
             return {id: actor.id, name: actor.firstname + ' ' + actor.lastname};
         })
 
+        let directorOptions = this.state.directors.map(function (director) {
+            return {id: director.id, name: director.firstname + ' ' + director.lastname};
+        })
 
         function getStylesForOptions(id, ids) {
             return {
@@ -162,6 +179,7 @@ class MovieEdit extends Component {
                                         input={<OutlinedInput label="Genres"/>}
                                         MenuProps={MenuProps}
                                         value={genreIds != null ? genreIds : []}
+                                        required
                                     >
                                         {genreOptions.map((g) => (
                                             <MenuItem
@@ -196,7 +214,7 @@ class MovieEdit extends Component {
                                     {(() => {
                                         let td = [];
                                         for (let i = 1; i <= 21; i++) {
-                                            td.push(<MenuItem value={i}>{i}</MenuItem>);
+                                            td.push(<MenuItem key={i} value={i}>{i}</MenuItem>);
                                         }
                                         return td;
                                     })()}
@@ -209,6 +227,30 @@ class MovieEdit extends Component {
                                 <Typography component="legend">Rating</Typography>
                                 <Rating name="rating" value={rating || ''} onChange={this.handleChange}
                                         precision={1}/>
+                            </FormControl>
+                        </FormGroup>
+                        <FormGroup sx={{m: 1, width: 300}}>
+                            <FormControl sx={{m: 1, minWidth: 80}}>
+                                <InputLabel>Director</InputLabel>
+                                <div>
+                                    {<Select
+                                        variant="outlined"
+                                        onChange={this.handleChangeDirector.bind(this)}
+                                        input={<OutlinedInput label="Director"/>}
+                                        MenuProps={MenuProps}
+                                        value={directorId}
+                                        required
+                                    >
+                                        {directorOptions.map((g) => (
+                                            <MenuItem
+                                                key={g.id}
+                                                value={g.id}
+                                            >
+                                                {g.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>}
+                                </div>
                             </FormControl>
                         </FormGroup>
                         <FormGroup sx={{m: 1, width: 300}}>
@@ -248,12 +290,10 @@ class MovieEdit extends Component {
                             <Button variant="contained" color="secondary" tag={Link} to="/movies">Cancel</Button>
                         </FormGroup>
                     </Form>
-
                 </Container>
             </Box>
         </div>
     }
-
 }
 
 export default withRouter(MovieEdit);

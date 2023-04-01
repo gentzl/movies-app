@@ -20,7 +20,7 @@ public class GenreController {
 
     @GetMapping
     public List<Genre> getGenres() {
-        var genres = genreRepository.findAll();
+        var genres = genreRepository.findAllByOrderByNameAsc();
         log.debug("found {} genres", genres.size());
         return genres;
     }

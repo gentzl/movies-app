@@ -7,7 +7,11 @@ Content-Type: application/json
   "year": 2023,
   "ageLimit": 12,
   "rating": 4,
-  "synopsis": "lorem ipsum"
+  "synopsis": "lorem ipsum",
+  "directorId": 1,
+  "genreIds": [
+    1
+  ]
 }
 
 ### create a movie (validation error)
@@ -33,6 +37,9 @@ Content-Type: application/json
 
 ### fetch all movies
 GET http://localhost:8080/movies
+
+### get specific movie
+GET http://localhost:8080/movies/1805
 
 ### fetch all genres
 GET http://localhost:8080/genres

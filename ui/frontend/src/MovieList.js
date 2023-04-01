@@ -39,7 +39,7 @@ class MovieList extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'text/plain'
             },
-            body: value
+            body: value != null ? value : ''
         };
 
         await fetch('/movies/find', requestOptions)
@@ -59,10 +59,12 @@ class MovieList extends Component {
                     <Rating name="rating" value={movie.rating} readOnly/>
                 </td>
                 <td>
-                    <div  style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                         <ButtonGroup>
-                            <Button size="sm" className="mr-2"  color="primary" tag={Link} to={"/movies/" + movie.id} >Edit</Button>
-                            <Button size="sm" className="mr-2"  color="danger" onClick={() => this.remove(movie.id)} >Delete</Button>
+                            <Button size="sm" className="mr-2" color="primary" tag={Link}
+                                    to={"/movies/" + movie.id}>Edit</Button>
+                            <Button size="sm" className="mr-2" color="danger"
+                                    onClick={() => this.remove(movie.id)}>Delete</Button>
                         </ButtonGroup>
                     </div>
                 </td>

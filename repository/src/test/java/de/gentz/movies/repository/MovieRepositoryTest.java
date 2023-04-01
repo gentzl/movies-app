@@ -1,10 +1,13 @@
 package de.gentz.movies.repository;
 
+import de.gentz.movies.builder.DirectorTestDataBuilder;
 import de.gentz.movies.builder.GenreTestDataBuilder;
 import de.gentz.movies.builder.MovieTestDataBuilder;
+import de.gentz.movies.entity.Director;
 import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -12,14 +15,18 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.parallel.ExecutionMode.SAME_THREAD;
 
 @EnableAutoConfiguration
-@ContextConfiguration(classes = {MovieRepository.class, GenreRepository.class})
+@ContextConfiguration(classes = {MovieRepository.class, GenreRepository.class, DirectorRepository.class})
 @DataJpaTest
 @EntityScan("de.gentz.movies.entity")
+@Execution(SAME_THREAD)
 public class MovieRepositoryTest {
     public static final Genre GENRE_ACTION = new GenreTestDataBuilder().name("Action").build();
     public static final Genre GENRE_DRAMA = new GenreTestDataBuilder().name("Drama").build();
+
+    public static final Director DIRECTOR_SPIELBERG = new DirectorTestDataBuilder().build();
 
     @Autowired
     MovieRepository movieRepository;
@@ -27,16 +34,31 @@ public class MovieRepositoryTest {
     @Autowired
     GenreRepository genreRepository;
 
-    Movie rambo1Movie = new MovieTestDataBuilder().genre(GENRE_ACTION).name("Rambo 1").build();
-    Movie rambo2Movie = new MovieTestDataBuilder().genre(GENRE_ACTION).name("Rambo 2").build();
-    Movie terminatorMovie = new MovieTestDataBuilder().genre(GENRE_ACTION).name("Terminator").build();
+    @Autowired
+    DirectorRepository directorRepository;
+
+    Movie rambo1Movie = new MovieTestDataBuilder()
+            .genre(GENRE_ACTION)
+            .name("Rambo 1")
+            .director(DIRECTOR_SPIELBERG)
+            .build();
+    Movie rambo2Movie = new MovieTestDataBuilder()
+            .genre(GENRE_ACTION)
+            .name("Rambo 2")
+            .director(DIRECTOR_SPIELBERG)
+            .build();
+    Movie terminatorMovie = new MovieTestDataBuilder()
+            .genre(GENRE_ACTION)
+            .director(DIRECTOR_SPIELBERG)
+            .name("Terminator")
+            .build();
 
     @Test
     public void findByNameContaining_Found() {
         saveMovieWithAllReferences(rambo1Movie);
         saveMovieWithAllReferences(rambo2Movie);
         saveMovieWithAllReferences(terminatorMovie);
-        var foundMovies = movieRepository.findByNameContainingIgnoreCase("amb");
+        var foundMovies = movieRepository.findByNameContainingIgnoreCaseOrderByNameAsc("amb");
 
         assertEquals(2, foundMovies.size());
         assertEquals("Rambo 1", foundMovies.get(0).getName());
@@ -48,10 +70,11 @@ public class MovieRepositoryTest {
         Movie titanicMovie = new MovieTestDataBuilder()
                 .name("Titanic")
                 .genre(GENRE_DRAMA)
+                .director(DIRECTOR_SPIELBERG)
                 .build();
         saveMovieWithAllReferences(titanicMovie);
 
-        titanicMovie = movieRepository.getReferenceById(titanicMovie.getId().longValue());
+        titanicMovie = movieRepository.getReferenceById(titanicMovie.getId());
 
         assertEquals("Titanic", titanicMovie.getName());
         assertEquals("Drama", titanicMovie.getGenres().iterator().next().getName());
@@ -59,10 +82,16 @@ public class MovieRepositoryTest {
 
     private synchronized void saveMovieWithAllReferences(Movie movie) {
         movie.getGenres().forEach(this::saveGenre);
+        saveDirector(movie.getDirector());
         movieRepository.save(movie);
     }
 
-    private void saveGenre(Genre genre) {
+    private synchronized void saveDirector(Director director) {
+        if (director.getId() == null && directorRepository.getByFirstnameAndLastname(director.getFirstname(), director.getLastname()) == null)
+            directorRepository.save(director);
+    }
+
+    private synchronized void saveGenre(Genre genre) {
         if (genreRepository.findByName(genre.getName()) == null) {
             genreRepository.save(genre);
         }

@@ -1,19 +1,19 @@
 package de.gentz.movies.builder;
 
-import de.gentz.movies.entity.Actor;
+import de.gentz.movies.entity.Director;
 
 public class DirectorTestDataBuilder {
-    private volatile Integer id;
+    private static Integer id;
     private final String firstname = "Steven";
 
     private final String lastname = "Spielberg";
 
-    public Actor build() {
+    public synchronized Director build() {
         if (id != null) {
             id++;
         }
 
-        return Actor.builder()
+        return Director.builder()
                 .id(id)
                 .firstname(firstname)
                 .lastname(lastname)

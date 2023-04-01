@@ -6,8 +6,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> {
-    List<Movie> findByNameContainingIgnoreCase(String name);
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
+
+    List<Movie> findByNameContainingIgnoreCaseOrderByNameAsc(String name);
+
+    List<Movie> findAllByOrderByNameAsc();
+
 
     Movie getByName(String name);
 }

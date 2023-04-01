@@ -1,8 +1,10 @@
 package de.gentz.movies.webservice.service;
 
 import de.gentz.movies.entity.Actor;
+import de.gentz.movies.entity.Director;
 import de.gentz.movies.entity.Genre;
 import de.gentz.movies.repository.ActorRepository;
+import de.gentz.movies.repository.DirectorRepository;
 import de.gentz.movies.repository.GenreRepository;
 import de.gentz.movies.repository.MovieRepository;
 import de.gentz.movies.webservice.model.importer.ImportMovie;
@@ -25,6 +27,7 @@ public class MovieImporter {
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
     private final ActorRepository actorRepository;
+    private final DirectorRepository directorRepository;
 
     public ImportResult importMovies(List<ImportMovie> movies) {
         var importResult = new ImportResult();
@@ -56,6 +59,11 @@ public class MovieImporter {
             if (importMovie.getActors() != null) {
                 var actors = importMovie.getActors().stream().map(a -> getOrCreateActor(a.getFirstName(), a.getLastName())).collect(Collectors.toSet());
                 movie.getActors().addAll(actors);
+            }
+
+            var director = importMovie.getDirector();
+            if (director != null) {
+                movie.setDirector(getOrCreateDirector(director.getFirstName(), director.getLastName()));
             }
 
             movieRepository.save(movie);
@@ -97,5 +105,20 @@ public class MovieImporter {
 
         log.info("creating actor; {} {}", firstname, lastName);
         return actorRepository.save(actorToCreate);
+    }
+
+    private Director getOrCreateDirector(String firstname, String lastName) {
+        var director = directorRepository.getByFirstnameAndLastname(firstname, lastName);
+        if (director != null) {
+            return director;
+        }
+
+        var actorToCreate = Director.builder()
+                .firstname(firstname)
+                .lastname(lastName)
+                .build();
+
+        log.info("creating director; {} {}", firstname, lastName);
+        return directorRepository.save(actorToCreate);
     }
 }

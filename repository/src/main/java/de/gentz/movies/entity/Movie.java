@@ -3,6 +3,7 @@ package de.gentz.movies.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -47,6 +48,7 @@ public class Movie {
     @ManyToMany
     @JoinTable(name = "movies_genres", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @NotNull(message = "Genre cannot be null")
+    @NotEmpty(message = "Genre must not be empty ")
     @Builder.Default
     private Set<Genre> genres = new HashSet<>();
 
@@ -58,5 +60,7 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "director_id")
 //    @Column(name = "director_id")
+
+    @NotNull(message = "Director id cannot be null")
     private Director director;
 }

@@ -2,6 +2,7 @@ package de.gentz.movies.webservice.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -38,11 +39,11 @@ public class MovieDto {
     private String synopsis;
 
     @NotNull(message = "Genre ids cannot be null")
+    @NotEmpty(message = "Genre must not be empty ")
     private List<Integer> genreIds;
 
     private List<Integer> actorIds;
 
+    @NotNull(message = "Director id cannot be null")
     private Integer directorId;
-
-    /*TODO:  Directors*/
 }
