@@ -24,14 +24,17 @@ class MovieEdit extends Component {
         ageLimit: 12,
         rating: 5,
         synopsis: '',
-        genreIds: []
+        genreIds: [],
+        actorIds: [],
+        directorId: null
     };
 
     constructor(props) {
         super(props);
         this.state = {
             item: this.emptyItem,
-            genres: []
+            genres: [],
+            actors: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,6 +51,13 @@ class MovieEdit extends Component {
             .then(data => {
                 this.setState({
                     genres: data
+                })
+            })
+        fetch('/actors')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    actors: data
                 })
             })
     }
@@ -78,6 +88,12 @@ class MovieEdit extends Component {
         this.setState({item});
     }
 
+    handleChangeActors(event) {
+        let item = {...this.state.item};
+        item["actorIds"] = event.target.value;
+        this.setState({item});
+    }
+
     async handleSubmit(event) {
         event.preventDefault();
         const {item} = this.state;
@@ -94,7 +110,7 @@ class MovieEdit extends Component {
     }
 
     render() {
-        const {item: {ageLimit, genreIds, id, name, rating, synopsis, year}} = this.state;
+        const {item: {ageLimit, id, name, rating, synopsis, year, genreIds, actorIds}} = this.state;
         const title = <h2>{id ? 'Edit Movie' : 'Add Movie'}</h2>;
 
         const ITEM_HEIGHT = 48;
@@ -110,6 +126,10 @@ class MovieEdit extends Component {
         let genreOptions = this.state.genres.map(function (genre) {
             return {id: genre.id, name: genre.name};
         })
+        let actorOptions = this.state.actors.map(function (actor) {
+            return {id: actor.id, name: actor.firstname + ' ' + actor.lastname};
+        })
+
 
         function getStylesForGenreOptions(name, genreIds) {
             return {
@@ -126,20 +146,17 @@ class MovieEdit extends Component {
                 <Container>
                     {title}
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
+                        <FormGroup sx={{m: 1, minWidth: 80}}>
                             <TextField label="Name" variant="outlined" name="name" id="name" value={name || ''}
                                        className="w-50"
                                        onChange={this.handleChange} autoComplete="name" required/>
                         </FormGroup>
-                        <FormControl sx={{m: 1, width: 300}}>
-                            <InputLabel id="demo-multiple-chip-label">Genres</InputLabel>
-
+                        <FormGroup sx={{m: 1, minWidth: 80}}>
+                            <InputLabel>Genres</InputLabel>
                             <div>
                                 <FormControl sx={{m: 1, width: 300}}>
 
                                     {<Select
-                                        labelId="demo-multiple-name-label"
-                                        id="demo-multiple-name"
                                         multiple={true}
                                         variant="outlined"
                                         onChange={this.handleChangeGenres.bind(this)}
@@ -159,13 +176,13 @@ class MovieEdit extends Component {
                                     </Select>}
                                 </FormControl>
                             </div>
-                        </FormControl>
-                        <FormGroup>
+                        </FormGroup>
+                        <FormGroup sx={{m: 1, minWidth: 80}}>
                             <TextField label="Year" type="number" variant="outlined" name="year" id="year"
                                        value={year || ''}
                                        onChange={this.handleChange} autoComplete="year" required/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup sx={{m: 1, minWidth: 80}}>
                             <FormControl sx={{m: 1, minWidth: 80}}>
                                 <InputLabel id="ageLimit">Age</InputLabel>
                                 <Select
@@ -184,14 +201,41 @@ class MovieEdit extends Component {
                                     })()}
                                 </Select>
                             </FormControl>
+
                         </FormGroup>
-                        <FormControl sx={{m: 1}}>
-                            <FormGroup>
+
+                        <FormGroup sx={{m: 1}}>
+                            <FormControl>
                                 <Typography component="legend">Rating</Typography>
                                 <Rating name="rating" value={rating || ''} onChange={this.handleChange}
                                         precision={1}/>
-                            </FormGroup>
-                        </FormControl>
+                            </FormControl>
+                        </FormGroup>
+                        <FormGroup sx={{m: 1, width: 300}}>
+                            <FormControl sx={{m: 1, minWidth: 80}}>
+                                <InputLabel>Actors</InputLabel>
+                                <div>
+                                    {<Select
+                                        multiple={true}
+                                        variant="outlined"
+                                        onChange={this.handleChangeActors.bind(this)}
+                                        input={<OutlinedInput label="Actors"/>}
+                                        MenuProps={MenuProps}
+                                        value={actorIds != null ? actorIds : []}
+                                    >
+                                        {actorOptions.map((g) => (
+                                            <MenuItem
+                                                key={g.id}
+                                                value={g.id}
+                                                style={getStylesForGenreOptions(g.id, actorIds)}
+                                            >
+                                                {g.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>}
+                                </div>
+                            </FormControl>
+                        </FormGroup>
                         <FormGroup>
                             <TextField label="Synopsis" variant="outlined" name="synopsis" id="synopsis"
                                        className="w-50"
