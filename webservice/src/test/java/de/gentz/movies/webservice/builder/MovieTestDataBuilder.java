@@ -1,5 +1,6 @@
 package de.gentz.movies.webservice.builder;
 
+import de.gentz.movies.entity.Actor;
 import de.gentz.movies.entity.Director;
 import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
@@ -16,6 +17,8 @@ public class MovieTestDataBuilder {
     private final String synopsis = "lorem ipsum";
 
     private final Set<Genre> genres = new HashSet<>();
+
+    private final Set<Actor> actors = new HashSet<>();
 
     private Director director;
 
@@ -34,6 +37,10 @@ public class MovieTestDataBuilder {
         return this;
     }
 
+    public MovieTestDataBuilder actor(Actor actor) {
+        actors.add(actor);
+        return this;
+    }
 
     public MovieTestDataBuilder director(Director director) {
         this.director = director;
@@ -52,6 +59,7 @@ public class MovieTestDataBuilder {
                 .year(year)
                 .synopsis(synopsis)
                 .genres(genres)
+                .actors(actors)
                 .director(director)
                 .build();
     }

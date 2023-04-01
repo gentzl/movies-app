@@ -63,7 +63,7 @@ class MovieList extends Component {
                         <ButtonGroup>
                             <Button size="sm" className="mr-2" color="primary" tag={Link}
                                     to={"/movies/" + movie.id}>Edit</Button>
-                            <Button size="sm" className="mr-2" color="danger"
+                            <Button size="sm" className="mx-md-1" color="danger"
                                     onClick={() => this.remove(movie.id)}>Delete</Button>
                         </ButtonGroup>
                     </div>

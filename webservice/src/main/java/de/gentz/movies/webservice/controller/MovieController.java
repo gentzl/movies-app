@@ -51,11 +51,9 @@ public class MovieController {
         var movie = movieRepository.findById(id);
         log.debug("found movie: {}", movie);
 
-        if (movie.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        return movie.map(value -> ResponseEntity.ok().body(MovieDtoMapper.mapToDto(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
 
-        return ResponseEntity.ok().body(MovieDtoMapper.mapToDto(movie.get()));
     }
 
     @PostMapping

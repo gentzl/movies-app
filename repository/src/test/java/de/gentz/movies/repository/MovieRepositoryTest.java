@@ -7,7 +7,6 @@ import de.gentz.movies.entity.Director;
 import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,17 +14,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.parallel.ExecutionMode.SAME_THREAD;
 
 @EnableAutoConfiguration
 @ContextConfiguration(classes = {MovieRepository.class, GenreRepository.class, DirectorRepository.class})
 @DataJpaTest
 @EntityScan("de.gentz.movies.entity")
-@Execution(SAME_THREAD)
 public class MovieRepositoryTest {
     public static final Genre GENRE_ACTION = new GenreTestDataBuilder().name("Action").build();
     public static final Genre GENRE_DRAMA = new GenreTestDataBuilder().name("Drama").build();
-
     public static final Director DIRECTOR_SPIELBERG = new DirectorTestDataBuilder().build();
 
     @Autowired

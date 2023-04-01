@@ -4,7 +4,6 @@ logging:
     de.gentz: DEBUG
 
 spring:
-
   jpa:
     hibernate:
       ddl-auto: create

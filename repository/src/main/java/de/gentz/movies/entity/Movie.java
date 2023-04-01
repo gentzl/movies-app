@@ -59,8 +59,6 @@ public class Movie {
 
     @ManyToOne
     @JoinColumn(name = "director_id")
-//    @Column(name = "director_id")
-
     @NotNull(message = "Director id cannot be null")
     private Director director;
 }

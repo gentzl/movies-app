@@ -153,7 +153,7 @@ class MovieEdit extends Component {
                 fontWeight:
                     ids != null && ids.indexOf(id) === -1
                         ? 100
-                        : 600
+                        : 300
             };
         }
 
