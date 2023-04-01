@@ -1,4 +1,4 @@
 # Project exclude paths
 /repository/target/
 /webservice/target/
-/.idea/
+/**/.idea/*
