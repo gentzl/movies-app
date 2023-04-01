@@ -1,0 +1,103 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="itsta (generated)" id="1680336525301-1">
+        <createTable tableName="actors">
+            <column autoIncrement="true" name="actor_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="actorsPK"/>
+            </column>
+            <column name="firstname" type="VARCHAR(255)"/>
+            <column name="lastname" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-2">
+        <createTable tableName="directors">
+            <column autoIncrement="true" name="director_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="directorsPK"/>
+            </column>
+            <column name="firstname" type="VARCHAR(255)"/>
+            <column name="lastname" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-3">
+        <createTable tableName="genres">
+            <column autoIncrement="true" name="genre_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="genresPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-4">
+        <createTable tableName="movies">
+            <column autoIncrement="true" name="movie_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="moviesPK"/>
+            </column>
+            <column name="age_limit" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="rating" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="synopsis" type="VARCHAR(255)"/>
+            <column name="year" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="director_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-5">
+        <createTable tableName="movies_actors">
+            <column name="movie_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="movies_actorsPK"/>
+            </column>
+            <column name="actors_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="movies_actorsPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-6">
+        <createTable tableName="movies_genres">
+            <column name="movie_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="movies_genresPK"/>
+            </column>
+            <column name="genre_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="movies_genresPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-7">
+        <addUniqueConstraint columnNames="name" constraintName="UC_GENRESNAME_COL" tableName="genres"/>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-8">
+        <addForeignKeyConstraint baseColumnNames="director_id" baseTableName="movies"
+                                 constraintName="FK5ft3u8k962bmjd8rn2mr77j8d" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="director_id"
+                                 referencedTableName="directors" validate="true"/>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-9">
+        <addForeignKeyConstraint baseColumnNames="actors_id" baseTableName="movies_actors"
+                                 constraintName="FKi9nbemods4rqk1geesbsgjpl1" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="actor_id" referencedTableName="actors"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-10">
+        <addForeignKeyConstraint baseColumnNames="movie_id" baseTableName="movies_genres"
+                                 constraintName="FKk0w7fx0a7flrtafppanyup87d" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="movie_id" referencedTableName="movies"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-11">
+        <addForeignKeyConstraint baseColumnNames="movie_id" baseTableName="movies_actors"
+                                 constraintName="FKo40lc9yirox8um5poaxhw6ak0" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="movie_id" referencedTableName="movies"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="itsta (generated)" id="1680336525301-12">
+        <addForeignKeyConstraint baseColumnNames="genre_id" baseTableName="movies_genres"
+                                 constraintName="FKrs5u5iygsuht2f0cag9b9h1ob" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="genre_id" referencedTableName="genres"
+                                 validate="true"/>
+    </changeSet>
+</databaseChangeLog>
