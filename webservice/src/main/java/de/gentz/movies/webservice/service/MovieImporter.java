@@ -44,6 +44,7 @@ public class MovieImporter {
             // TODO: multiple movies with same name can exist ... only a workaround for presentation to prevent redundant imports
             var movie = movieRepository.getByName(importMovie.getName());
             var createMovie = false;
+
             if (movie != null) {
                 importResult.increaseIgnored();
                 log.info("movie already exists: {}", importMovie);
@@ -56,12 +57,14 @@ public class MovieImporter {
                 var genres = importMovie.getGenres().stream().map(this::getOrCreateGenre).collect(Collectors.toSet());
                 movie.getGenres().addAll(genres);
             }
+
             if (importMovie.getActors() != null) {
                 var actors = importMovie.getActors().stream().map(a -> getOrCreateActor(a.getFirstName(), a.getLastName())).collect(Collectors.toSet());
                 movie.getActors().addAll(actors);
             }
 
             var director = importMovie.getDirector();
+
             if (director != null) {
                 movie.setDirector(getOrCreateDirector(director.getFirstName(), director.getLastName()));
             }
@@ -81,6 +84,7 @@ public class MovieImporter {
 
     private Genre getOrCreateGenre(String genreName) {
         var genre = genreRepository.findByName(genreName);
+
         if (genre != null) {
             return genre;
         }
@@ -88,12 +92,14 @@ public class MovieImporter {
         var genreToCreate = Genre.builder()
                 .name(genreName)
                 .build();
+
         log.info("creating genre; {}", genreName);
         return genreRepository.save(genreToCreate);
     }
 
     private Actor getOrCreateActor(String firstname, String lastName) {
         var actor = actorRepository.getByFirstnameAndLastname(firstname, lastName);
+
         if (actor != null) {
             return actor;
         }
@@ -109,6 +115,7 @@ public class MovieImporter {
 
     private Director getOrCreateDirector(String firstname, String lastName) {
         var director = directorRepository.getByFirstnameAndLastname(firstname, lastName);
+
         if (director != null) {
             return director;
         }

@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @EnableAutoConfiguration
 @ContextConfiguration(classes = {GenreRepository.class})
@@ -25,8 +26,15 @@ public class GenreRepositoryTest {
     @Test
     public void findByName_Found() {
         genreRepository.save(GENRE_ACTION);
-        var foundGenre = genreRepository.findByName(GENRE_ACTION.getName());
+        var genre = genreRepository.findByName(GENRE_ACTION.getName());
 
-        assertEquals(GENRE_ACTION.getName(), foundGenre.getName());
+        assertEquals(GENRE_ACTION.getName(), genre.getName());
+    }
+
+    @Test
+    public void findByName_NotFound() {
+        var genre = genreRepository.findByName("you can't find me");
+
+        assertNull(genre);
     }
 }

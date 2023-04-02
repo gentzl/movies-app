@@ -62,6 +62,13 @@ public class MovieRepositoryTest {
     }
 
     @Test
+    public void findByNameContaining_NotFound() {
+        var foundMovies = movieRepository.findByNameContainingIgnoreCaseOrderByNameAsc("non existing movie");
+
+        assertEquals(0, foundMovies.size());
+    }
+
+    @Test
     public void getReferenceById() {
         Movie titanicMovie = new MovieTestDataBuilder()
                 .name("Titanic")

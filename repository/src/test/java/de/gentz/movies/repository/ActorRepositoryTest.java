@@ -9,8 +9,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @EnableAutoConfiguration
 @ContextConfiguration(classes = {ActorRepository.class})
@@ -30,5 +29,12 @@ public class ActorRepositoryTest {
         assertNotNull(foundActor);
         assertEquals(ACTOR.getFirstname(), foundActor.getFirstname());
         assertEquals(ACTOR.getLastname(), foundActor.getLastname());
+    }
+
+    @Test
+    public void findByName_NotFound() {
+        actorRepository.save(ACTOR);
+        var foundActor = actorRepository.getByFirstnameAndLastname("Non existing firstname", ACTOR.getLastname());
+        assertNull(foundActor);
     }
 }
