@@ -165,7 +165,9 @@ class MovieEdit extends Component {
                         <FormGroup sx={{m: 1, minWidth: 80}}>
                             <TextField label="Name" variant="outlined" name="name" id="name" value={name || ''}
                                        className="w-50"
-                                       onChange={this.handleChange} autoComplete="name" required/>
+                                       onChange={this.handleChange} autoComplete="name"
+                                       required
+                                       inputProps={{maxLength: 50}}/>
                         </FormGroup>
                         <FormGroup sx={{m: 1, width: 300}}>
                             <FormControl sx={{m: 1, minWidth: 80}}>
@@ -197,7 +199,8 @@ class MovieEdit extends Component {
                             <FormControl>
                                 <TextField label="Year" type="number" variant="outlined" name="year" id="year"
                                            value={year || ''}
-                                           onChange={this.handleChange} autoComplete="year" required/>
+                                           onChange={this.handleChange} autoComplete="year"
+                                           required InputProps={{inputProps: {min: 1900, max: 2023}}}/>
                             </FormControl>
                         </FormGroup>
                         <FormGroup sx={{m: 1, minWidth: 80}}>
@@ -282,7 +285,7 @@ class MovieEdit extends Component {
                                        className="w-50"
                                        value={synopsis || ''}
                                        onChange={this.handleChange} autoComplete="synopsis" multiline
-                                       rows={5}/>
+                                       rows={5} inputProps={{maxLength: 500}}/>
                         </FormGroup>
                         <FormGroup sx={{m: 1}}>
                             <Button variant="contained" color="primary" type="submit">Save</Button>{' '}
