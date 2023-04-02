@@ -53,17 +53,17 @@ class MovieList extends Component {
         const movieList = movies.map(movie => {
             return <tr key={movie.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{movie.name}</td>
-                <td>{movie.year}</td>
                 <td>{movie.ageLimit}</td>
+                <td>{movie.year}</td>
                 <td>
                     <Rating name="rating" value={movie.rating} readOnly/>
                 </td>
                 <td>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                         <ButtonGroup>
-                            <Button size="sm" className="mr-2" color="primary" tag={Link}
+                            <Button size="sm" color="primary" tag={Link}
                                     to={"/movies/" + movie.id}>Edit</Button>
-                            <Button size="sm" className="mx-md-1" color="danger"
+                            <Button size="sm" color="danger"
                                     onClick={() => this.remove(movie.id)}>Delete</Button>
                         </ButtonGroup>
                     </div>
@@ -87,8 +87,8 @@ class MovieList extends Component {
                         <tr>
                             <th>Name</th>
                             <th>Year</th>
-                            <th>Age Limit</th>
                             <th>Rating</th>
+                            <th>Age Limit</th>
                             <th>
                                 <div style={{display: 'flex', justifyContent: 'flex-end'}}>Actions</div>
                             </th>

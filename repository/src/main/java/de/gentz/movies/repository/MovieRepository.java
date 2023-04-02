@@ -12,6 +12,5 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     List<Movie> findAllByOrderByNameAsc();
 
-
     Movie getByName(String name);
 }

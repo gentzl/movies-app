@@ -143,7 +143,6 @@ class MovieEdit extends Component {
         let actorOptions = this.state.actors.map(function (actor) {
             return {id: actor.id, name: actor.firstname + ' ' + actor.lastname};
         })
-
         let directorOptions = this.state.directors.map(function (director) {
             return {id: director.id, name: director.firstname + ' ' + director.lastname};
         })
