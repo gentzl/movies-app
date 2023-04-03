@@ -36,8 +36,6 @@ GET http://localhost:8080/movies/1805
 ### fetch all genres
 GET http://localhost:8080/genres
 
-
-
 ### create a movie
 POST http://localhost:8080/movies/find
 Content-Type: text/plain

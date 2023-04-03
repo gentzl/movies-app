@@ -41,7 +41,13 @@ public class MovieController {
 
     @PostMapping(path = "/find")
     public ResponseEntity findMovies(@RequestBody(required = false) String searchText) {
-        List<Movie> movies = movieRepository.findByNameContainingIgnoreCaseOrderByNameAsc(searchText);
+        List<Movie> movies;
+        if (searchText != null) {
+            movies = movieRepository.findByNameContainingIgnoreCaseOrderByNameAsc(searchText);
+        } else {
+            movies = movieRepository.findAllByOrderByNameAsc();
+        }
+
         log.debug("found {} movies", movies.size());
         return ResponseEntity.ok(movies.stream().map(MovieDtoMapper::mapToDto).collect(Collectors.toList()));
     }

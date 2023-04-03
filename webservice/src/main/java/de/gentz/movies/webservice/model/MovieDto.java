@@ -20,7 +20,7 @@ public class MovieDto {
     private Integer id;
 
     @NotNull(message = "Name cannot be null")
-    @Length(min = 1, max = 100)
+    @Length(min = 1, max = 100, message = "Name must be greater than 1 and less than 100")
     private String name;
 
     @Min(value = 1900, message = "Year should not be less than 1900")
