@@ -3,8 +3,10 @@ package de.gentz.movies.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.gentz.movies.entity.Director;
+import de.gentz.movies.entity.Genre;
 import de.gentz.movies.entity.Movie;
 import de.gentz.movies.repository.MovieRepository;
+import de.gentz.movies.webservice.builder.DirectorTestDataBuilder;
 import de.gentz.movies.webservice.builder.GenreTestDataBuilder;
 import de.gentz.movies.webservice.builder.MovieTestDataBuilder;
 import de.gentz.movies.webservice.mapper.MovieDtoMapper;
@@ -32,6 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class MovieControllerIntegrationTest {
 
+    public static final Genre GENRE = new GenreTestDataBuilder().build();
+    public static final Director DIRECTOR = new DirectorTestDataBuilder().build();
+
     @MockBean
     MovieRepository movieRepository;
 
@@ -41,13 +46,20 @@ class MovieControllerIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-    Movie movie1 = new MovieTestDataBuilder().name("Rambo 1").build();
+    Movie movie1 = new MovieTestDataBuilder()
+            .genre(GENRE)
+            .director(DIRECTOR)
+            .name("Rambo 1").build();
 
-    Movie movie2 = new MovieTestDataBuilder().name("Rambo 2").build();
+    Movie movie2 = new MovieTestDataBuilder()
+            .genre(GENRE)
+            .director(DIRECTOR)
+            .name("Rambo 2")
+            .build();
 
     @Test
     public void getAllMovies_FoundTwo() throws Exception {
-        when(movieRepository.findAll()).thenReturn(Arrays.asList(movie1, movie2));
+        when(movieRepository.findAllByOrderByNameAsc()).thenReturn(Arrays.asList(movie1, movie2));
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/movies")
@@ -59,7 +71,8 @@ class MovieControllerIntegrationTest {
                 .andExpect(jsonPath("$[0].ageLimit").isNotEmpty())
                 .andExpect(jsonPath("$[0].rating").isNotEmpty())
                 .andExpect(jsonPath("$[0].year").isNotEmpty())
-                .andExpect(jsonPath("$[0].synopsis").isNotEmpty());
+                .andExpect(jsonPath("$[0].synopsis").isNotEmpty())
+                .andExpect(jsonPath("$[0].genreIds").isNotEmpty());
     }
 
     @Test

@@ -61,6 +61,7 @@ public class MovieTestDataBuilder {
                 .genres(genres)
                 .actors(actors)
                 .director(director)
+                .rating(1)
                 .build();
     }
 }

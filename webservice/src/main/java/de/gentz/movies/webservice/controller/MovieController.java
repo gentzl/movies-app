@@ -59,7 +59,6 @@ public class MovieController {
 
         return movie.map(value -> ResponseEntity.ok().body(MovieDtoMapper.mapToDto(value)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
-
     }
 
     @PostMapping
