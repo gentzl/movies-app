@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @EnableAutoConfiguration
 @ContextConfiguration(classes = {MovieRepository.class, GenreRepository.class, DirectorRepository.class})
@@ -48,6 +49,13 @@ public class MovieRepositoryTest {
             .director(DIRECTOR_SPIELBERG)
             .name("Terminator")
             .build();
+
+    @Test
+    public void save() {
+        saveMovieWithAllReferences(rambo1Movie);
+        var savedMovie = movieRepository.save(rambo1Movie);
+        assertNotNull(savedMovie);
+    }
 
     @Test
     public void findByNameContaining_Found() {

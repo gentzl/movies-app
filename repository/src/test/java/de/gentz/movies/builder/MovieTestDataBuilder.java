@@ -12,6 +12,7 @@ public class MovieTestDataBuilder {
     private String name = "Rambo 1";
     private final int ageLimit = 12;
     private final int year = 1986;
+    private final int rating = 4;
     private final String synopsis = "lorem ipsum";
 
     private final Set<Genre> genres = new HashSet<>();
@@ -42,6 +43,7 @@ public class MovieTestDataBuilder {
                 .name(name)
                 .ageLimit(ageLimit)
                 .year(year)
+                .rating(rating)
                 .synopsis(synopsis)
                 .genres(genres)
                 .director(director)

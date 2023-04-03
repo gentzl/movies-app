@@ -53,11 +53,11 @@ class MovieList extends Component {
         const movieList = movies.map(movie => {
             return <tr key={movie.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{movie.name}</td>
-                <td>{movie.ageLimit}</td>
                 <td>{movie.year}</td>
                 <td>
                     <Rating name="rating" value={movie.rating} readOnly/>
                 </td>
+                <td>{movie.ageLimit}</td>
                 <td>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                         <ButtonGroup>
@@ -90,7 +90,6 @@ class MovieList extends Component {
                             <th>Rating</th>
                             <th>Age Limit</th>
                             <th>
-                                <div style={{display: 'flex', justifyContent: 'flex-end'}}>Actions</div>
                             </th>
                         </tr>
                         </thead>

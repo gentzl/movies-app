@@ -38,7 +38,7 @@ public class Movie {
     @Max(value = 150, message = "Age should not be greater than 150")
     private int ageLimit;
 
-    @Min(value = 0, message = "Rating should not be less than 0")
+    @Min(value = 1, message = "Rating should not be less than 1")
     @Max(value = 5, message = "Rating should not be greater than 5")
     private int rating;
 
